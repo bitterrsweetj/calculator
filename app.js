@@ -50,21 +50,27 @@ class Calculator {
         if (current === 0) {
           this.currentOperandTextElement.innerText = "OOPS";
         } else {
-        computation = prev / current; }
+          computation = prev / current;
+        }
         break;
-      default: 
-      return;
+      default:
+        return;
     }
-    this.currentOperand = computation.toFixed(10);
+    this.currentOperand = computation;
     this.operation = undefined;
     this.previousOperand = '';
 
   }
 
-  
+
   updateDisplay() {
-    this.currentOperandTextElement.innerText = this.currentOperand;
-    if(this.operation != null){
+    if (this.currentOperand.toString().length > 13) {
+      this.currentOperandTextElement.innerText = this.currentOperand.toString().slice(0, 13);
+    }
+    else {
+      this.currentOperandTextElement.innerText = this.currentOperand;
+    } 
+    if (this.operation != null) {
       this.previousOperandTextElement.innerText = `${this.previousOperand}${this.operation}`;
     } else {
       this.previousOperandTextElement.innerText = '';
@@ -113,106 +119,84 @@ deleteButton.addEventListener('click', () => {
   calculator.updateDisplay();
 })
 
+// keyboard support
+const keyboardInput = document.querySelector('.current-operand');
 
-
-
-
-
-
-
-
-
-
-
-// let displayValue = document.querySelector('.display');
-//
-// let firstNum;
-// let secondNum;
-// let operator;
-// let input;
-// let result;
-//
-// const clearDisplay = function () {
-//   displayValue.textContent = '';
-//   firstNum = '';
-//   secondNum = '';
-//   operator = '';
-// }
-//
-// const buttons = Array.from(document.querySelectorAll('button'));
-// buttons.map (currentBtn => {
-//   currentBtn.addEventListener('click', (e) => {
-//     switch(e.target.innerText) {
-//       case 'C':
-//         displayValue.textContent = '';
-//         break;
-//       case '=':
-//       default:
-//         displayValue.textContent += e.target.innerText;
-//     }
-//     input = e.target.innerText;
-//     if (!operator) {
-//
-//       if (!firstNum && !isNaN(input)) { //operators should be disabled
-//         firstNum = input;
-//         console.log(firstNum, 'cool its a number');
-//       } else if (!isNaN(input)) {
-//         firstNum += input;
-//         console.log(firstNum, 'cool its a number');
-//       } else if (input === '+' || input === '-' || input === '*' || input === '/') {
-//         operator = input;
-//       }
-//
-//     } else { //disable operators except '='
-//       if (!secondNum && !isNaN(input)) { //operators should be disabled
-//         secondNum = input;
-//         console.log(secondNum, 'cool its a number');
-//       } else if (!isNaN(input)) {
-//         secondNum += input;
-//         console.log(secondNum, 'cool its a number');
-//       } else if (input === '=') {
-//         result = operate(operator, firstNum, secondNum);
-//         displayValue.textContent = result;
-//
-//       }
-//
-  // }
-//
-//   });
-//
-// })
-//
-//
-//
-//
-// function add(a, b) {
-//   return parseInt(a) + parseInt(b);
-// }
-//
-// function substract(a, b) {
-//   return parseInt(a) - parseInt(b);
-// }
-//
-// function multiply(a, b) {
-//   return parseInt(a) * parseInt(b);
-// }
-//
-// function divide(a, b) {
-//   return parseInt(a) / parseInt(b);
-// }
-//
-// function operate(operator, num1, num2) {
-//   switch (operator) {
-//     case '+':
-//       return add(num1, num2);
-//     case '-':
-//       return substract(num1, num2);
-//     case '*':
-//       return multiply(num1, num2);
-//     case '/':
-//       return divide(num1, num2);
-//   }
-// }
-
-
-
+document.addEventListener('keydown', (event) => {
+  console.log(event.key);
+  switch (event.key) {
+    case '0': calculator.appendNumber(0);
+      calculator.updateDisplay();
+      break;
+    case '1':
+      calculator.appendNumber(1);
+      calculator.updateDisplay();
+      break;
+    case '2':
+      calculator.appendNumber(2);
+      calculator.updateDisplay();
+      break;
+    case '3':
+      calculator.appendNumber(3);
+      calculator.updateDisplay();
+      break;
+    case '4':
+      calculator.appendNumber(4);
+      calculator.updateDisplay();
+      break;
+    case '5':
+      calculator.appendNumber(5);
+      calculator.updateDisplay();
+      break;
+    case '6':
+      calculator.appendNumber(6);
+      calculator.updateDisplay();
+      break;
+    case '7':
+      calculator.appendNumber(7);
+      calculator.updateDisplay();
+      break;
+    case '8':
+      calculator.appendNumber(8);
+      calculator.updateDisplay();
+      break;
+    case '9':
+      calculator.appendNumber(9);
+      calculator.updateDisplay();
+      break;
+    case '+':
+      calculator.chooseOperation('+');
+      calculator.updateDisplay();
+      break;
+    case '-':
+      calculator.chooseOperation('-');
+      calculator.updateDisplay();
+      break;
+    case '*':
+      calculator.chooseOperation('*');
+      calculator.updateDisplay();
+      break;
+    case '/':
+      calculator.chooseOperation('÷');
+      calculator.updateDisplay();
+      break;
+    case '=':
+      calculator.compute();
+      calculator.updateDisplay();
+      break;
+    case 'Enter':
+      calculator.compute();
+      calculator.updateDisplay();
+      break;
+    case 'Backspace':
+      calculator.delete();
+      calculator.updateDisplay();
+      break;
+    case '.':
+      calculator.appendNumber('.');
+      calculator.updateDisplay();
+      break;
+    default:
+      return;
+  }
+})
